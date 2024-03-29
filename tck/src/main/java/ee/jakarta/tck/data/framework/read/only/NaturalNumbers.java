@@ -40,11 +40,14 @@ import ee.jakarta.tck.data.framework.read.only.NaturalNumber.NumberType;
 @Repository
 public interface NaturalNumbers extends BasicRepository<NaturalNumber, Long>, IdOperations {
 
+    @Query("select count(this)")
     long countBy();
 
+    @Query("where floorOfSquareRoot = ?1 order by id asc")
     CursoredPage<NaturalNumber> findByFloorOfSquareRootOrderByIdAsc(long sqrtFloor,
                                                                     PageRequest<NaturalNumber> pagination);
 
+    @Query("where id between ?1 and ?2 order by numType asc")
     Stream<NaturalNumber> findByIdBetweenOrderByNumTypeAsc(long minimum,
                                                            long maximum,
                                                            Order<NaturalNumber> sorts);
@@ -57,15 +60,19 @@ public interface NaturalNumbers extends BasicRepository<NaturalNumber, Long>, Id
 
     List<NaturalNumber> findByIdLessThanEqual(long maximum, Sort<?>... sorts);
 
+    @Query("where id < ?1 order by floorOfSquareRoot desc")
     Page<NaturalNumber> findByIdLessThanOrderByFloorOfSquareRootDesc(long exclusiveMax,
                                                                      PageRequest<NaturalNumber> pagination);
 
+    @Query("where numType = ?1 and numBitsRequired < ?2")
     CursoredPage<NaturalNumber> findByNumTypeAndNumBitsRequiredLessThan(NumberType type,
                                                                         short bitsUnder,
                                                                         PageRequest<NaturalNumber> pagination);
 
+    @Query("where numType <> ?1")
     NaturalNumber[] findByNumTypeNot(NumberType notThisType, Limit limit, Order<NaturalNumber> sorts);
 
+    @Query("where numType = ?1 and floorOfSquareRoot <= ?2")
     Page<NaturalNumber> findByNumTypeAndFloorOfSquareRootLessThanEqual(NumberType type,
                                                                        long maxSqrtFloor,
                                                                        PageRequest<NaturalNumber> pagination);
