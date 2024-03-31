@@ -26,6 +26,7 @@ import jakarta.data.page.CursoredPage;
 import jakarta.data.page.Page;
 import jakarta.data.page.PageRequest;
 import jakarta.data.repository.BasicRepository;
+import jakarta.data.repository.OrderBy;
 import jakarta.data.repository.Query;
 import jakarta.data.repository.Repository;
 
@@ -43,11 +44,13 @@ public interface NaturalNumbers extends BasicRepository<NaturalNumber, Long>, Id
     @Query("select count(this)")
     long countBy();
 
-    @Query("where floorOfSquareRoot = ?1 order by id asc")
+    @Query("where floorOfSquareRoot = ?1")
+    @OrderBy("id")
     CursoredPage<NaturalNumber> findByFloorOfSquareRootOrderByIdAsc(long sqrtFloor,
                                                                     PageRequest<NaturalNumber> pagination);
 
-    @Query("where id between ?1 and ?2 order by numType asc")
+    @Query("where id between ?1 and ?2")
+    @OrderBy("numType")
     Stream<NaturalNumber> findByIdBetweenOrderByNumTypeAsc(long minimum,
                                                            long maximum,
                                                            Order<NaturalNumber> sorts);
