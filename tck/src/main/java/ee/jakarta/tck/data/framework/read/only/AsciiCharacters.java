@@ -83,19 +83,11 @@ public interface AsciiCharacters extends DataRepository<AsciiCharacter, Long>, I
     @Query("where numericValue <= ?1 and numericValue >= ?2")
     List<AsciiCharacter> findByNumericValueLessThanEqualAndNumericValueGreaterThanEqual(int max, int min);
 
-    @Query("where numericValue >= ?1 and right(hexadecimal, length(?2)) = ?2")
-    AsciiCharacter[] findByNumericValueGreaterThanEqualAndHexadecimalEndsWith(int minValue, String lastHexDigit, Sort<AsciiCharacter> sort, Limit limit);
+    @Query("where numericValue >= ?1 and right(hexadecimal, length(?2)) = ?2 order by '' limit 3")
+    AsciiCharacter[] findFirst3ByNumericValueGreaterThanEqualAndHexadecimalEndsWith(int minValue, String lastHexDigit, Sort<AsciiCharacter> sort);
 
-    default AsciiCharacter[] findFirst3ByNumericValueGreaterThanEqualAndHexadecimalEndsWith(int minValue, String lastHexDigit, Sort<AsciiCharacter> sort) {
-        return findByNumericValueGreaterThanEqualAndHexadecimalEndsWith(minValue , lastHexDigit, sort, Limit.of(3));
-    }
-
-    @Query("where left(hexadecimal, length(?1)) = ?1 and isControl = ?2 order by id asc")
-    List<AsciiCharacter> findByHexadecimalStartsWithAndIsControlOrderByIdAsc(String firstHexDigit, boolean isControlChar);
-
-    default Optional<AsciiCharacter> findFirstByHexadecimalStartsWithAndIsControlOrderByIdAsc(String firstHexDigit, boolean isControlChar) {
-        return findByHexadecimalStartsWithAndIsControlOrderByIdAsc(firstHexDigit, isControlChar).stream().findFirst();
-    }
+    @Query("where left(hexadecimal, length(?1)) = ?1 and isControl = ?2 order by id asc limit 1")
+    Optional<AsciiCharacter> findFirstByHexadecimalStartsWithAndIsControlOrderByIdAsc(String firstHexDigit, boolean isControlChar);
 
     @Query("select thisCharacter where hexadecimal like '4_'" +
            " and hexadecimal not like '%0'" +
