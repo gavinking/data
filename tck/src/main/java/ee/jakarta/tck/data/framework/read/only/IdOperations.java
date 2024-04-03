@@ -28,7 +28,4 @@ public interface IdOperations {
     long countByIdBetween(long minimum, long maximum);
 
     boolean existsById(long id);
-
-    @Query("SELECT id WHERE id >= :inclusiveMin")
-    List<Long> withIdEqualOrAbove(long inclusiveMin, Limit limit, Order<?> sorts);
 }
