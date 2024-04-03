@@ -28,7 +28,7 @@ public interface IdOperations {
     @Query("select count(this) where id(this) between ?1 and ?2")
     long countByIdBetween(long minimum, long maximum);
 
-    @Query("select count(this) > 1 where id(this) = ?1")
+    @Query("select count(this) > 0 where id(this) = ?1")
     boolean existsById(long id);
 
     @Query("SELECT id WHERE id >= :inclusiveMin")

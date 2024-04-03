@@ -55,12 +55,15 @@ public interface NaturalNumbers extends BasicRepository<NaturalNumber, Long>, Id
                                                            long maximum,
                                                            Order<NaturalNumber> sorts);
 
+    @Query("where id >= ?1")
     List<NaturalNumber> findByIdGreaterThanEqual(long minimum,
                                                  Limit limit,
                                                  Order<NaturalNumber> sorts);
 
+    @Query("where id < ?1")
     NaturalNumber[] findByIdLessThan(long exclusiveMax, Sort<NaturalNumber> primarySort, Sort<NaturalNumber> secondarySort);
 
+    @Query("where id <= ?1")
     List<NaturalNumber> findByIdLessThanEqual(long maximum, Sort<?>... sorts);
 
     @Query("where id < ?1 order by floorOfSquareRoot desc")

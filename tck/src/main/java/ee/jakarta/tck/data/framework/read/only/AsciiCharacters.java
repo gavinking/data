@@ -69,6 +69,7 @@ public interface AsciiCharacters extends DataRepository<AsciiCharacter, Long>, I
     @Query("where lower(hexadecimal) = lower(?1)")
     AsciiCharacter findByHexadecimalIgnoreCase(String hex);
 
+    @Query("where id between ?1 and ?2")
     Stream<AsciiCharacter> findByIdBetween(long minimum, long maximum, Sort<AsciiCharacter> sort);
 
     @Query("where isControl = true and numericValue between ?1 and ?2")
